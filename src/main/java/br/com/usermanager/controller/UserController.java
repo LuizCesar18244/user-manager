@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,7 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping
+	@CacheEvict(value = "usersList", allEntries = true)
 	public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO user) {
 		
 		if(!CPFUtil.isValidCPF(user.getCpf())) {
@@ -64,6 +67,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/{cpf}")
+	@CacheEvict(value = "usersList", allEntries = true)
 	public ResponseEntity<UserDTO> delete(@PathVariable String cpf) {
 
 		Optional<User> deleted = userService.delete(cpf);
@@ -77,6 +81,7 @@ public class UserController {
 
 	@PutMapping("/{cpf}")
 	@Transactional
+	@CacheEvict(value = "usersList", allEntries = true)
 	public ResponseEntity<UserDTO> update(@PathVariable String cpf, @Valid @RequestBody UserDTO user) {
 		
 		if(!CPFUtil.isValidCPF(user.getCpf()) || !CPFUtil.isValidCPF(cpf)) {
@@ -92,6 +97,7 @@ public class UserController {
 	}
 
 	@GetMapping("/list")
+	@Cacheable(value = "usersList")
 	public ResponseEntity<List<UserDTO>> listAll() {
 		List<UserDTO> users = userService.listAll();
 		return ResponseEntity.ok(users);
@@ -131,6 +137,7 @@ public class UserController {
 	
 	@PutMapping("/inative/{cpf}")
 	@Transactional
+	@CacheEvict(value = "usersList", allEntries = true)
 	public ResponseEntity<UserDTO> inativeUser(@PathVariable String cpf){
 		
 		Optional<User> userOptional = userService.inativeUser(cpf);
