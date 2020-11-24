@@ -2,6 +2,6 @@ INSERT INTO STATION (id, name) VALUES (1, 'MANAGER');
 
 INSERT INTO PROFILE (id, name) VALUES (1, 'ROLE_ADMINISTRATOR');
 
-INSERT INTO USER(CPF, name, password, gender, birthdate, station_id, status) VALUES('05936840018', 'Juca da Silva Sauro', '$2a$10$d1YEuZBQMqfXMji1pv3FUuK3L/EC/bBAbOvzxofSlfC/J94D4kRqi', 'MALE', 19900312, 1, 'ACTIVE');
+INSERT INTO USER(CPF, name, password, gender, birthdate, station_id, status) VALUES('05936840018', 'Juca', '$2a$10$d1YEuZBQMqfXMji1pv3FUuK3L/EC/bBAbOvzxofSlfC/J94D4kRqi', 'MALE', 19900312, 1, 'ACTIVE');
 
 INSERT INTO USER_PROFILES (USER_CPF, PROFILES_ID ) VALUES ('05936840018', 1);
