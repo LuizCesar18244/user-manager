@@ -66,7 +66,7 @@ public class UserService {
 
 
 	public Optional<User> findByName(String name) {
-		Optional<User> Optionaluser = userRepository.findByName(name);
+		Optional<User> Optionaluser = userRepository.findByName(name.trim());
 		return Optionaluser;
 	}
 

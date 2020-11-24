@@ -87,7 +87,7 @@ public class UserDTO {
 		return dto;
 	}
 	
-	public static User unmarshal(UserDTO dto, User user, ProfileService profileService, StationService stationService) {
+	public static User unmarshal(UserDTO dto, User user, ProfileService profileService, StationService stationService) throws IllegalArgumentException {
 		
 		user.setCPF(dto.getCpf());
 		user.setName(dto.getName());
@@ -103,27 +103,36 @@ public class UserDTO {
 		LocalDate birthdate = LocalDate.parse(dto.birthdate, formatter);
 		
 		user.setBirthdate(birthdate);
-		
-		String password = new BCryptPasswordEncoder().encode(dto.password);
-		user.setPassword(password);
 
 		List<Profile> profiles = new ArrayList<Profile>();
 		
 		dto.profiles.forEach(profileName -> {
 			Profile profile = profileService.findByName(profileName);
-			profiles.add(profile);
+			if(!Objects.isNull(profile)) {
+				profiles.add(profile);
+			}
 		});
+		
+		if(profiles.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		
 		user.setProfiles(profiles);
 		
 		Station station = stationService.findByName(dto.getStation());
 		
+		if(Objects.isNull(station)) {
+			throw new IllegalArgumentException();
+		}
+		
 		user.setStation(station);
+		
+		String password = new BCryptPasswordEncoder().encode(dto.password);
+		user.setPassword(password);
 		
 		return user;
 		
 	}
-	
 
 }
 
