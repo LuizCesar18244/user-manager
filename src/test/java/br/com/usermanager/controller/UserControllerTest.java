@@ -33,7 +33,7 @@ class UserControllerTest {
 	@Test
 	void shouldAllowLogin() throws Exception {
 		URI uri = new URI("/api/auth");
-		String json = "{\"name\": \"Juca da Silva Sauro\", \"password\": \"123456\"}";
+		String json = "{\"name\": \"Juca\", \"password\": \"123456\"}";
 		
 		mock.perform(MockMvcRequestBuilders
 				.post(uri)
